@@ -1,4 +1,4 @@
-# Blind Face Super-Resolution
+# 🧑‍🦰✨ Blind Face Super-Resolution
 
 A Residual Channel-Attention Network (RCAN) that restores 128×128 low-quality face crops
 to 512×512 high-resolution images, under a *blind* setting: the degradations applied to
@@ -9,12 +9,12 @@ corruptions rather than a single known downsampling kernel, following the
 Full write-up (architecture rationale, training curves, held-out evaluation result):
 [Report.pdf](Report.pdf).
 
-## Results
+## 📊 Results
 
-- **1,824,595** parameters.
-- Best validation PSNR during training: **~26.4 dB** (200 epochs, checkpoint selected by
+- 🧮 **1,824,595** parameters.
+- 📈 Best validation PSNR during training: **~26.4 dB** (200 epochs, checkpoint selected by
   highest validation PSNR).
-- Held-out test-set (400 images) PSNR: **26.61 dB**.
+- 🏆 Held-out test-set (400 images) PSNR: **26.61 dB**.
 
 | Training loss | Validation PSNR |
 |---|---|
@@ -23,7 +23,7 @@ Full write-up (architecture rationale, training curves, held-out evaluation resu
 Both curves are produced automatically at the end of `train.py` and saved to
 `training_loss.png` / `validation_psnr.png`.
 
-## Model
+## 🧠 Model
 
 `model.py` implements RCAN:
 
@@ -38,7 +38,7 @@ Both curves are produced automatically at the end of `train.py` and saved to
 The network is randomly initialized and trained end-to-end from scratch with an L1
 reconstruction loss — no adversarial or perceptual loss, no pretraining.
 
-## Repository layout
+## 🗂️ Repository layout
 
 ```
 model.py                          RCAN architecture
@@ -57,7 +57,7 @@ model.pth                         Best checkpoint (highest validation PSNR)
 Report.pdf                        Technical write-up (architecture, training, results)
 ```
 
-## Data
+## 🗃️ Data
 
 Expects an FFHQ-derived split laid out as:
 
@@ -79,7 +79,7 @@ the full two-stage degradation (blur → resize → noise → JPEG, twice, plus 
 filter) on GPU each step to produce the LQ input on the fly. Validation and test LQ
 images are pre-generated and loaded as-is.
 
-## Setup
+## ⚙️ Setup
 
 ```bash
 pip install torch torchvision numpy opencv-python pillow matplotlib basicsr
@@ -88,23 +88,23 @@ pip install torch torchvision numpy opencv-python pillow matplotlib basicsr
 `basicsr` supplies the degradation kernels (`basicsr.data.degradations`), paired-crop
 utility, `DiffJPEG`/`USMSharp`, and file I/O helpers used throughout the data pipeline.
 
-## Usage
+## 🚀 Usage
 
-Train (saves the best checkpoint to `--save_model`, plots to `--input_dir`):
+🏋️ Train (saves the best checkpoint to `--save_model`, plots to `--input_dir`):
 
 ```bash
 python main.py --input_dir ./data --save_model ./model.pth \
     --num_epochs 200 --batch_size 16 --learning_rate 0.0002 --device cuda
 ```
 
-Run inference on the test set with a trained checkpoint:
+🔮 Run inference on the test set with a trained checkpoint:
 
 ```bash
 python main.py --inferring --save_model ./model.pth \
     --test_input_dir ./data/test/LQ --test_output_dir ./data/test/preds --device cuda
 ```
 
-Score predictions against ground truth (`res/`/`ref/` layout):
+✅ Score predictions against ground truth (`res/`/`ref/` layout):
 
 ```bash
 python evaluate.py <input_dir_with_res_and_ref_subfolders> <output_dir>
@@ -114,7 +114,7 @@ Key CLI options (see `utils.get_parser()` for the rest): `--input_dir/-i`,
 `--save_model/-w`, `--test_input_dir/-ti`, `--test_output_dir/-to`, `--batch_size/-bs`,
 `--num_workers/-nw`, `--num_epochs/-ep`, `--learning_rate/-lr`, `--device/-d`.
 
-## Training configuration
+## 🎛️ Training configuration
 
 - Loss: `nn.L1Loss`
 - Optimizer: Adam (lr=2e-4, betas=(0.9, 0.99), weight_decay=0)
